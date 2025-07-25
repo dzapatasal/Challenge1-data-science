@@ -109,6 +109,53 @@ print(df_final)
 #_______________________________________________________________________________
 #3. CALIFICACION PROMEDIO DE LAS TIENDAS
 
+#TIENDA 1
+calif_T1 = tienda['Calificación'].mean()
+ventas_tienda = tienda['Precio'].sum()
+
+#TIENDA 2
+calif_T2 = tienda2['Calificación'].mean()
+ventas_tienda_2 = tienda2['Precio'].sum()
+
+#TIENDA 3
+calif_T3 = tienda3['Calificación'].mean()
+ventas_tienda_3 = tienda3['Precio'].sum()
+
+#TIENDA 4
+calif_T4 = tienda4['Calificación'].mean()
+ventas_tienda_4 = tienda4['Precio'].sum()
+
+
+# CONVERSION DE PARES A SERIES
+s1 = pd.Series({'Promedio calificacion': calif_T1,'Total ventas': ventas_tienda},name='Tienda 1')
+s2 = pd.Series({'Promedio calificacion': calif_T2,'Total ventas': ventas_tienda_2},name='Tienda 2')
+s3 = pd.Series({'Promedio calificacion': calif_T3,'Total ventas': ventas_tienda_3},name='Tienda 3')
+s4 = pd.Series({'Promedio calificacion': calif_T4,'Total ventas': ventas_tienda_4},name='Tienda 4')
+
+resumen = pd.concat([s1, s2, s3, s4],axis=1) # Conserva los datos numericos originales, para calculos futuros.
+
+# Si quieres mostrar las ventas formateadas como moneda, hazlo en una copia.
+resumen_formateado = resumen.copy().astype(object)
+
+# Opcional: Formatear las ventas con 'S/. ' y separador de miles.
+# Aquí formateamos solo la fila de "Total ventas"
+resumen_formateado.loc['Total ventas'] = resumen.loc['Total ventas'].apply(lambda x: f'S/. {x:,.2f}')
+
+# La columna de calificaciones puede que no necesite un formato especial,
+# pero podrías redondearla.
+resumen_formateado.loc['Promedio calificacion'] = resumen.loc['Promedio calificacion'].apply(lambda x: f'{x:.2f}')
+
+# Establecer un formato para todos los números de punto flotante
+# '.2f' significa 2 decimales
+pd.options.display.float_format = '{:,.2f}'.format
+
+
+# -- VISUALIZACIÓN DEL DATAFRAME FORMATEADO --
+# Esto te mostrará la tabla con un formato legible para el usuario.
+print(resumen_formateado)
+
+#_______________________________________________________________________________
+
 # PRODUCTOS MAS Y MENOS VENDIDOS
 
 # ENVIO PROMEDIO POR TIENDA
