@@ -59,26 +59,53 @@ print(f'Total de ventas (4 Tiendas) : S/. {Total_ventas:,}')
 # Configuracion para mostrar tabla completa
 pd.set_option('display.expand_frame_repr', False)
 
-# Agrupar por categoria y suma de ingresos en cada tienda
-conteo1 = tienda.groupby('Categoría del Producto')['Precio'].sum()
-conteo2 = tienda2.groupby('Categoría del Producto')['Precio'].sum()
-conteo3 = tienda3.groupby('Categoría del Producto')['Precio'].sum()
-conteo4 = tienda4.groupby('Categoría del Producto')['Precio'].sum()
+# -- OBTENIENDO INGRESOS Y CANTIDADES --
+# Obteniendo los ingresos y las cantidades (Ingresos por categoria)
+ingresos_1 = tienda.groupby('Categoría del Producto')['Precio'].sum()
+ingresos_2 = tienda2.groupby('Categoría del Producto')['Precio'].sum()
+ingresos_3 = tienda3.groupby('Categoría del Producto')['Precio'].sum()
+ingresos_4 = tienda4.groupby('Categoría del Producto')['Precio'].sum()
 
-# Unir todo en un solo DataFrame
-ingresos_unificado = pd.concat(
-    [conteo1, conteo2, conteo3, conteo4],
-    axis=1,
-    keys= ['Tienda 1', 'Tienda 2', 'Tienda 3', 'Tienda 4']
-    )
+# Cantidad de productos vendidos por Categoría
+conteo_1 = tienda['Categoría del Producto'].value_counts()
+conteo_2 = tienda2['Categoría del Producto'].value_counts()
+conteo_3 = tienda3['Categoría del Producto'].value_counts()
+conteo_4 = tienda4['Categoría del Producto'].value_counts()
 
-# Formatear con moneda
-ingresos_formateados = ingresos_unificado.copy()
-for col in ingresos_formateados.columns:
-    ingresos_formateados[col] = ingresos_formateados[col].map(lambda x: f'S/. {x:,}')
+# -- CREANDO DATAFRAMES INDIVIDUALES COMBINADOS --
+# Creando pares de columnas por tiendas
+df_t1 = pd.concat([ingresos_1, conteo_1], axis=1)
+df_t1.columns = ['Tienda 1', ' Cantidades T1']
 
-# Visualizacion
-print(ingresos_formateados)
+df_t2 = pd.concat([ingresos_2, conteo_2], axis=1)
+df_t2.columns = ['Tienda 2', ' Cantidades T2']
+
+df_t3 = pd.concat([ingresos_3, conteo_3], axis=1)
+df_t3.columns = ['Tienda 3', ' Cantidades T3']
+
+df_t4 = pd.concat([ingresos_4, conteo_4], axis=1)
+df_t4.columns = ['Tienda 4', ' Cantidades T4']
+
+# -- UNIENDO 4 PARES Y ORDENANDO POR INGRESOS TOTALES --
+# Unir todo por índice (Categoría del Producto)
+df_unificado = pd.concat([df_t1, df_t2, df_t3, df_t4], axis=1)
+
+# Calcular el total de ingresos (sin formatear aun) para ordenar
+df_unificado['Total Ingresos'] = df_unificado[['Tienda 1', 'Tienda 2', 'Tienda 3', 'Tienda 4']].sum(axis=1)
+
+# Ordenar por total
+df_ordenado = df_unificado.sort_values(by='Total Ingresos', ascending=False)
+
+# -- Formatear ingressos con 'S/.' --
+# Copiar para formatear sin afectar orden
+df_final = df_ordenado.copy()
+
+# Formatear solo columnas de ingresos
+for col in ['Tienda 1', 'Tienda 2', 'Tienda 3', 'Tienda 4', 'Total Ingresos']:
+  df_final[col] = df_final[col].map(lambda x: f'S/. {x:,}')
+
+# -- RESULTADO --
+print(df_final)
 #_______________________________________________________________________________
 #3. CALIFICACION PROMEDIO DE LAS TIENDAS
 
