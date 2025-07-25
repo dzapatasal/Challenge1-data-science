@@ -1,3 +1,4 @@
+# IMPORTACION DE DATOS DE ALURA STORE LATAM
 import pandas as pd
 import os
 
@@ -22,3 +23,13 @@ os.startfile("tienda_1.csv")
 os.startfile("tienda_2.csv")
 os.startfile("tienda_3.csv")
 os.startfile("tienda_4.csv")
+
+# ANALISIS DE FACTURACION
+
+# VENTAS POR CATEGORIA
+
+# CALIFICACION PROMEDIO DE LAS TIENDAS
+
+# PRODUCTOS MAS Y MENOS VENDIDOS
+
+# ENVIO PROMEDIO POR TIENDA
