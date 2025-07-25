@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+import sys
+import io
+
+# Establecer la codificación de salida estándar a UTF-8
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+
 # IMPORTACION DE DATOS DE ALURA STORE LATAM
 import pandas as pd
 import os
@@ -25,7 +33,7 @@ os.startfile("tienda_2.csv")
 os.startfile("tienda_3.csv")
 os.startfile("tienda_4.csv")
 
-# ANALISIS DE FACTURACION
+#1. ANALISIS DE FACTURACION
 # Suma de los valores de la columna 'Precio' de todas las tiendas
 subTotal_ventas_tienda = tienda['Precio'].sum()
 subTotal_ventas_tienda2 = tienda2['Precio'].sum()
@@ -46,9 +54,33 @@ print(f'Tienda 4: S/. {subTotal_ventas_tienda4:,}')
 
 print(f'Total de ventas (4 Tiendas) : S/. {Total_ventas:,}')
 
-# VENTAS POR CATEGORIA
+#_______________________________________________________________________________
+#2. VENTAS POR CATEGORIA
+# Configuracion para mostrar tabla completa
+pd.set_option('display.expand_frame_repr', False)
 
-# CALIFICACION PROMEDIO DE LAS TIENDAS
+# Agrupar por categoria y suma de ingresos en cada tienda
+conteo1 = tienda.groupby('Categoría del Producto')['Precio'].sum()
+conteo2 = tienda2.groupby('Categoría del Producto')['Precio'].sum()
+conteo3 = tienda3.groupby('Categoría del Producto')['Precio'].sum()
+conteo4 = tienda4.groupby('Categoría del Producto')['Precio'].sum()
+
+# Unir todo en un solo DataFrame
+ingresos_unificado = pd.concat(
+    [conteo1, conteo2, conteo3, conteo4],
+    axis=1,
+    keys= ['Tienda 1', 'Tienda 2', 'Tienda 3', 'Tienda 4']
+    )
+
+# Formatear con moneda
+ingresos_formateados = ingresos_unificado.copy()
+for col in ingresos_formateados.columns:
+    ingresos_formateados[col] = ingresos_formateados[col].map(lambda x: f'S/. {x:,}')
+
+# Visualizacion
+print(ingresos_formateados)
+#_______________________________________________________________________________
+#3. CALIFICACION PROMEDIO DE LAS TIENDAS
 
 # PRODUCTOS MAS Y MENOS VENDIDOS
 
