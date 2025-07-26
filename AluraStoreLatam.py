@@ -170,5 +170,15 @@ df_unificado_items = pd.concat(
 # Se muestra la tabla consolidada para análisis visual o exportación.
 print(df_unificado_items)
 
-
+#----------------------------------------------------------------------------
 # ENVIO PROMEDIO POR TIENDA
+
+def mostrar_promedios_flete(tiendas):
+    print("Promedio del costo de envío por tienda:")
+    for i, df in enumerate(tiendas, start=1):
+        promedio = df['Costo de envío'].mean()
+        print(f"  Tienda T{i}: S/ {promedio:.2f}")
+
+# Llamada
+mostrar_promedios_flete([tienda, tienda2, tienda3, tienda4])
+
