@@ -143,7 +143,32 @@ pd.options.display.float_format = '{:,.2f}'.format
 # Esto te mostrará la tabla con un formato legible para el usuario.
 print(resumen_formateado)
 #_______________________________________________________________________________
+# ANÁLISIS COMPARATIVO DE PRODUCTOS MÁS Y MENOS VENDIDOS POR TIENDA
 
-# PRODUCTOS MAS Y MENOS VENDIDOS
+# Para cada tienda, se cuenta cuántas veces se vendió cada producto y se ordenan de mayor a menor.
+# Se convierte el resultado a un DataFrame con columnas renombradas para claridad.
+
+conteo_items_T1 = tienda['Producto'].value_counts().reset_index()
+conteo_items_T1.columns = ['Producto T1', 'Cantidad T1']  # Producto más vendido de la Tienda 1
+
+conteo_items_T2 = tienda2['Producto'].value_counts().reset_index()
+conteo_items_T2.columns = ['Producto T2', 'Cantidad T2']  # Producto más vendido de la Tienda 2
+
+conteo_items_T3 = tienda3['Producto'].value_counts().reset_index()
+conteo_items_T3.columns = ['Producto T3', 'Cantidad T3']  # Producto más vendido de la Tienda 3
+
+conteo_items_T4 = tienda4['Producto'].value_counts().reset_index()
+conteo_items_T4.columns = ['Producto T4', 'Cantidad T4']  # Producto más vendido de la Tienda 4
+
+# Se combinan los DataFrames horizontalmente (por columnas), comparando por posición de fila (no por nombre de producto).
+# Esto permite comparar directamente el ranking de productos más vendidos entre tiendas.
+df_unificado_items = pd.concat(
+    [conteo_items_T1, conteo_items_T2, conteo_items_T3, conteo_items_T4],
+    axis=1
+)
+
+# Se muestra la tabla consolidada para análisis visual o exportación.
+print(df_unificado_items)
+
 
 # ENVIO PROMEDIO POR TIENDA
