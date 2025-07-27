@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import sys
 import io
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 
 # Establecer la codificación de salida estándar a UTF-8
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -181,4 +183,39 @@ def mostrar_promedios_flete(tiendas):
 
 # Llamada
 mostrar_promedios_flete([tienda, tienda2, tienda3, tienda4])
+
+#-----------------------------------------------------------------------------
+# GRAFICAS
+# Crear un DataFrame manual con esos subtotales
+df_grf_1 = pd.DataFrame({
+   'Tienda': ['Nro. 1', 'Nro. 2', 'Nro. 3', 'Nro. 4'],
+   'Ventas': [subTotal_ventas_tienda, 
+              subTotal_ventas_tienda2, 
+              subTotal_ventas_tienda3, 
+              subTotal_ventas_tienda4
+              ]   
+})
+
+# Colores personalizados por barra
+colores =['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']  # Azul, naranja, verde, rojo
+
+# Creacion de grafico
+fig, ax = plt.subplots(figsize =(8, 6))
+barras = ax.bar(df_grf_1['Tienda'], df_grf_1['Ventas'], color=colores)
+
+# Mostrar eje Y en millones (ajuste a 1e9 si son miles de millones)
+ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'{x/1e6:.1f}M'))
+
+# Titulos & Etiquetas
+plt.title('Ingreso total de ventas por Tienda')
+plt.xlabel('Tienda')
+plt.ylabel(' Ventas (S/.)\nMiles de millones')
+
+# Mostrar el monto exacto encima de cada barra
+for i,v in enumerate(df_grf_1['Ventas']):
+   ax.text(i, v + (v*0.01),f"S/. {v:,.2f}",ha='center', va='bottom', fontsize=9)
+
+
+plt.tight_layout
+plt.show()
 
