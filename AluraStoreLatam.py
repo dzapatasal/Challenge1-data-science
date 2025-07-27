@@ -4,6 +4,7 @@ import io
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 from matplotlib.patches import Patch
+import numpy as np
 
 # Establecer la codificación de salida estándar a UTF-8
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -262,6 +263,67 @@ plt.subplots_adjust(bottom=0.2)
 
 # Título general
 plt.suptitle('Distribución porcentual de productos vendidos por categoría (con abreviaturas)', fontsize=16)
+plt.tight_layout()
+
+#[GRAFICA 3] HISTOGRAMA DE OPINIONES DE LOS CLIENTES SEGUN CADA TIENDA
+
+# Crear el DataFrame
+datos_tiendas = pd.DataFrame({
+    'Tienda': ['Tienda 1', 'Tienda 2', 'Tienda 3', 'Tienda 4'],
+    'Calificación promedio': [calif_T1, calif_T2, calif_T3, calif_T4],
+    'Ventas totales': [ventas_tienda, ventas_tienda_2, ventas_tienda_3, ventas_tienda_4]
+})
+
+# Posiciones para las barras
+x = np.arange(len(datos_tiendas['Tienda']))
+ancho_barra = 0.4
+
+# Crear figura y ejes
+fig, ax1 = plt.subplots(figsize=(10, 6))
+
+# Segundo eje Y
+ax2 = ax1.twinx()
+
+# Barras para calificación (eje izquierdo)
+barras1 = ax1.bar(x - ancho_barra/2, datos_tiendas['Calificación promedio'], width=ancho_barra,
+                  label='Calificación promedio', color='skyblue')
+
+# Barras para ventas (eje derecho)
+barras2 = ax2.bar(x + ancho_barra/2, datos_tiendas['Ventas totales'], width=ancho_barra,
+                  label='Ventas totales', color='lightgreen')
+
+# Configurar ejes
+ax1.set_ylabel('Calificación promedio', color='skyblue')
+ax1.set_ylim(0, 5)  # Límite ideal para calificaciones de 1 a 5
+ax2.set_ylabel('Ventas (S/.)\nMiles de millones', color='green')
+
+ax1.set_xticks(x)
+ax1.set_xticklabels(datos_tiendas['Tienda'])
+ax1.set_title('Opiniones de clientes y ventas totales por tienda')
+
+# Formato personalizado con puntos
+formateador_miles = lambda x, _: f'{x:,.0f}'.replace(',', '.')
+
+# Aplicar al eje de ventas (derecho)
+ax2.yaxis.set_major_formatter(mticker.FuncFormatter(formateador_miles))
+
+# Mostrar valores sobre las barras
+for barra in barras1:
+    altura = barra.get_height()
+    ax1.annotate(f'{altura:.2f}', xy=(barra.get_x() + barra.get_width()/2, altura),
+                 xytext=(0, 3), textcoords="offset points", ha='center', va='bottom', color='blue')
+
+for barra in barras2:
+    altura = barra.get_height()
+    texto = f'{altura:,.0f}'.replace(',', '.')
+    ax2.annotate(texto,
+                  xy=(barra.get_x() + barra.get_width()/2, altura),
+                  xytext=(0, 3), textcoords="offset points",
+                   ha='center', va='bottom', color='green')
+
+# Leyendas combinadas
+fig.legend(loc='upper left', bbox_to_anchor=(0.1, 0.9))
+
 plt.tight_layout()
 plt.show()
 
