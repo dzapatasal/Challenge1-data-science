@@ -265,7 +265,58 @@ plt.subplots_adjust(bottom=0.2)
 plt.suptitle('Distribución porcentual de productos vendidos por categoría (con abreviaturas)', fontsize=16)
 plt.tight_layout()
 
-#[GRAFICA 3] HISTOGRAMA DE OPINIONES DE LOS CLIENTES SEGUN CADA TIENDA
+# [GRAFICA 3] COMPARACIÓN DE PRODUCTOS ENTRE TIENDAS
+
+import matplotlib.pyplot as plt
+
+# Paso 1: Renombrar columnas para unificar los DataFrames por nombre de producto
+# Esto es importante para que el merge (unión) sea claro y las columnas no se sobreescriban
+conteo_items_T1.columns = ['Producto', 'Cantidad T1']
+conteo_items_T2.columns = ['Producto', 'Cantidad T2']
+conteo_items_T3.columns = ['Producto', 'Cantidad T3']
+conteo_items_T4.columns = ['Producto', 'Cantidad T4']
+
+# Paso 2: Unificar los datos de las cuatro tiendas por el nombre del producto
+# Usamos outer join para incluir todos los productos, incluso si alguno no aparece en alguna tienda
+df_unificado_items = conteo_items_T1.merge(conteo_items_T2, on='Producto', how='outer') \
+                                    .merge(conteo_items_T3, on='Producto', how='outer') \
+                                    .merge(conteo_items_T4, on='Producto', how='outer')
+
+# Paso 3: Rellenar valores faltantes (NaN) con 0
+# Esto evita errores en cálculos posteriores si un producto no fue vendido en alguna tienda
+df_unificado_items.fillna(0, inplace=True)
+
+# Paso 4: Crear una columna con el total de ventas por producto en las 4 tiendas
+df_unificado_items['Total'] = df_unificado_items[['Cantidad T1', 'Cantidad T2', 'Cantidad T3', 'Cantidad T4']].sum(axis=1)
+
+# Paso 5: Ordenar los productos de mayor a menor según el total de ventas
+df_unificado_items.sort_values('Total', ascending=False, inplace=True)
+
+# Paso 6: Seleccionar los productos más vendidos para el gráfico
+# Aquí se eligen los 10 productos con mayor cantidad total vendida
+top_n = 10
+df_top = df_unificado_items.head(top_n)
+x = range(len(df_top))  # Posiciones para el eje X
+
+# Paso 7: Definir ancho de barras para cada tienda en el gráfico de barras agrupadas
+width = 0.2
+
+# Paso 8: Crear figura del gráfico
+plt.figure(figsize=(20, 10))  # Tamaño amplio para que los nombres de productos no se encimen
+
+# Paso 9: Graficar barras para cada tienda, desplazadas en el eje X para estar una al lado de la otra
+plt.bar([i - 1.5*width for i in x], df_top['Cantidad T1'], width, label='Tienda 1', color='skyblue')
+plt.bar([i - 0.5*width for i in x], df_top['Cantidad T2'], width, label='Tienda 2', color='salmon')
+plt.bar([i + 0.5*width for i in x], df_top['Cantidad T3'], width, label='Tienda 3', color='lightgreen')
+plt.bar([i + 1.5*width for i in x], df_top['Cantidad T4'], width, label='Tienda 4', color='orange')
+
+# Paso 10: Personalización del gráfico
+plt.xticks(x, df_top['Producto'], rotation=90, fontsize=9)  # Nombres de productos en X
+plt.ylabel('Cantidad Vendida')  # Etiqueta del eje Y
+plt.title('Top 10 productos más vendidos por tienda')  # Título del gráfico
+plt.legend()  # Mostrar leyenda para las tiendas
+plt.tight_layout()  # Acomoda el contenido del gráfico para que no se solape
+plt.grid(axis='y', linestyle='--', alpha=0.5)  # Línea guía horizontal
 
 # Crear el DataFrame
 datos_tiendas = pd.DataFrame({
