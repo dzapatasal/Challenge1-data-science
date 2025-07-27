@@ -3,6 +3,7 @@ import sys
 import io
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+from matplotlib.patches import Patch
 
 # Establecer la codificación de salida estándar a UTF-8
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -185,7 +186,7 @@ def mostrar_promedios_flete(tiendas):
 mostrar_promedios_flete([tienda, tienda2, tienda3, tienda4])
 
 #-----------------------------------------------------------------------------
-# GRAFICAS
+# GRAFICA 1
 # Crear un DataFrame manual con esos subtotales
 df_grf_1 = pd.DataFrame({
    'Tienda': ['Nro. 1', 'Nro. 2', 'Nro. 3', 'Nro. 4'],
@@ -217,5 +218,51 @@ for i,v in enumerate(df_grf_1['Ventas']):
 
 
 plt.tight_layout
+
+# [GRAFICA 2] 
+# Todas las categorías únicas
+todas_categorias = sorted(set(conteo_1.index) | set(conteo_2.index) | set(conteo_3.index) | set(conteo_4.index))
+
+# Generar abreviaturas para cada categoría (iniciales o primera sílaba)
+abreviaturas = {cat: ''.join([p[0] for p in cat.split()]).upper() for cat in todas_categorias}
+
+# Asignar colores consistentes por categoría
+colores_base = plt.cm.tab20.colors
+colores_categoria = {cat: colores_base[i % len(colores_base)] for i, cat in enumerate(todas_categorias)}
+
+# Listas de conteos y nombres de tiendas
+conteos = [conteo_1, conteo_2, conteo_3, conteo_4]
+nombres_tiendas = ['Tienda 1', 'Tienda 2', 'Tienda 3', 'Tienda 4']
+
+# Crear subplots
+fig, axes = plt.subplots(1, 4, figsize=(22, 6))
+
+for i, ax in enumerate(axes):
+    conteo = conteos[i].reindex(todas_categorias, fill_value=0)
+    proporciones = conteo / conteo.sum()
+    proporciones = proporciones.sort_values(ascending=False)
+
+    sizes = proporciones.values
+    categorias_ordenadas = proporciones.index
+    labels = [abreviaturas[cat] for cat in categorias_ordenadas]
+    colors = [colores_categoria[cat] for cat in categorias_ordenadas]
+
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, colors=colors)
+    ax.set_title(nombres_tiendas[i])
+
+# Crear leyenda común (fuera del gráfico)
+leyenda_patches = [
+    Patch(facecolor=colores_categoria[cat], label=f"{abreviaturas[cat]} = {cat}")
+    for cat in todas_categorias
+]
+
+# Posicionar leyenda debajo de los gráficos
+fig.legend(handles=leyenda_patches, loc='lower center', ncol=4, fontsize=10)
+plt.subplots_adjust(bottom=0.2)
+
+# Título general
+plt.suptitle('Distribución porcentual de productos vendidos por categoría (con abreviaturas)', fontsize=16)
+plt.tight_layout()
 plt.show()
+
 
