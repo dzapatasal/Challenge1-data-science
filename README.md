@@ -134,7 +134,7 @@ Esto abrirá tu navegador web con la interfaz de Jupyter.
 Navega hasta el archivo 'AluraStoreLatam.ipynb' y ábrelo para ver el análisis completo. Puedes ejecutar cada celda para reproducir los resultados.
 
 ## 📜 Licencia
-Este proyecto se encuentra bajo la licencia MIT. Para más detalles, consulta el archivo LICENSE.md.
+Este proyecto se encuentra bajo la licencia MIT. Para más detalles, consulta el archivo LICENSE.
 
 ## 🙏 Agradecimientos
 Agradecemos a Alura LATAM por proporcionar los datos y la estructura del proyecto como parte del desafío de Data Science.
