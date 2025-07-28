@@ -2,7 +2,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Proyecto-AluraStoreLatam-blueviolet?style=flat-square" alt="Proyecto">
-  <img src="https://img.shields.io/github/license/dzapatasal/Challenge1-data-science?style=flat-square" alt="Licencia">
+  <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="Licencia">
   <img src="https://img.shields.io/badge/Estado-En%20Desarrollo-yellow?style=flat-square" alt="Estado">
   <img src="https://img.shields.io/badge/Versión-1.0.0-blue?style=flat-square" alt="Versión">
   <img src="https://img.shields.io/badge/Python-3.8%2B-blue?style=flat-square&logo=python" alt="Python">
