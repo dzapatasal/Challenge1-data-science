@@ -1,5 +1,16 @@
 # AluraStoreLatam: Análisis de Rendimiento de Ventas 📊
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Proyecto-AluraStoreLatam-blueviolet?style=flat-square" alt="Proyecto">
+  <img src="https://img.shields.io/github/license/dzapatasal/Challenge1-data-science?style=flat-square" alt="Licencia">
+  <img src="https://img.shields.io/badge/Estado-En%20Desarrollo-yellow?style=flat-square" alt="Estado">
+  <img src="https://img.shields.io/badge/Versión-1.0.0-blue?style=flat-square" alt="Versión">
+  <img src="https://img.shields.io/badge/Python-3.8%2B-blue?style=flat-square&logo=python" alt="Python">
+  <img src="https://img.shields.io/badge/Jupyter-Notebook-orange?style=flat-square&logo=jupyter" alt="Jupyter Notebook">
+  <img src="https://img.shields.io/badge/Tests-No%20incluidos-lightgrey?style=flat-square" alt="Pruebas">
+  <img src="https://img.shields.io/badge/Dependencias-Numpy%20%7C%20Pandas%20%7C%20Matplotlib-informational?style=flat-square" alt="Dependencias">
+</p>
+
 ## 📝 Descripción del Proyecto
 
 Este proyecto de análisis de datos tiene como objetivo principal evaluar el rendimiento de ventas de cuatro tiendas de la cadena comercial **AluraStoreLatam**. A través de un análisis exhaustivo en Python, utilizando Jupyter Notebook, se procesan y visualizan datos para identificar la tienda con el desempeño más bajo y recomendar su posible venta. El análisis se centra en métricas clave como la facturación total, las ventas por categoría de producto, la calificación promedio de los clientes, los productos más y menos vendidos, y los costos de envío.
