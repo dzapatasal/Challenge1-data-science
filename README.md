@@ -14,7 +14,7 @@ Recomendar cuál de las cuatro tiendas de **AluraStoreLatam** debería ser vendi
 
 La estructura del repositorio está organizada de la siguiente manera para facilitar la navegación y comprensión del proyecto:
 
-.
+```
 ├── Challenge1-data-science/
 │   ├── .vscode/
 │   ├── reports/
@@ -33,7 +33,7 @@ La estructura del repositorio está organizada de la siguiente manera para facil
 │   ├── tienda_3.csv
 │   └── tienda_4.csv
 └── venv/
-
+```
 
 - `AluraStoreLatam.ipynb`: El cuaderno de Jupyter que contiene todo el análisis de datos.
 - `tienda_*.csv`: Archivos de datos en formato CSV para cada una de las cuatro tiendas.
